@@ -1,3 +1,7 @@
+# Credentials and keys
+credentials/
+keys/
+
 # Logs
 logs
 *.log
