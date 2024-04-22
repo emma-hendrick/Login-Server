@@ -1,9 +1,13 @@
 // We will use express to build the server, and use crypto to encrypt and decrypt the resources
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // Default app and port
 const app = express();
 const port = 3000;
+
+// Middleware to parse JSON bodies
+app.use(bodyParser.json())
 
 // When someone makes a request
 app.use('/', require('./routes'));

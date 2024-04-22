@@ -1,6 +1,7 @@
-# Credentials and keys
-credentials/
-keys/
+# Credentials, keys, and users
+credentials.json
+keys.json
+users.json
 
 # Logs
 logs
