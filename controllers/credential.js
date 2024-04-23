@@ -25,8 +25,8 @@ const getCredential = async (req, res, next) => {
         }
 
         // Process the username and password
-        const username = credential.username.trim();
-        const password = credential.password.trim();
+        const username = credential.username;
+        const password = credential.password;
 
         // Encrypt the username and password using the clients public key
         readKey((err, keys) => {
@@ -45,8 +45,8 @@ const getCredential = async (req, res, next) => {
             publickey = userKeys.public;
 
             // Encrypt the pass and user
-            const user_encrypted = crypto.publicEncrypt({ key: publickey, padding: crypto.constants.RSA_PKCS1_OAEP_PADDING }, Buffer.from(username, 'utf8'));
-            const pass_encrypted = crypto.publicEncrypt({ key: publickey, padding: crypto.constants.RSA_PKCS1_OAEP_PADDING }, Buffer.from(password, 'utf8'));
+            const user_encrypted = crypto.publicEncrypt({ key: publickey, padding: crypto.constants.RSA_PKCS1_OAEP_PADDING }, Buffer.from(username));
+            const pass_encrypted = crypto.publicEncrypt({ key: publickey, padding: crypto.constants.RSA_PKCS1_OAEP_PADDING }, Buffer.from(password));
 
             // Credentials
             const creds = {
@@ -119,8 +119,8 @@ const setupCredential = async (req, res, next) => {
 
             // Save the decrypted credentials
             credentials[req.username][req.credentialName] = {
-                username: user_decrypted,
-                password: pass_decrypted
+                username: user_decrypted.toString('utf8'),
+                password: pass_decrypted.toString('utf8')
             }
             
             // Write this setup to the credentials
@@ -153,8 +153,8 @@ const deleteCredential = async (req, res, next) => {
 
         // Users specific credential
         const credential = user[req.credentialName]
-        if (credential) {
-            res.status(400).send('Credential already exists.');
+        if (!credential) {
+            res.status(400).send('Credential does not exist.');
             return;
         }
 
