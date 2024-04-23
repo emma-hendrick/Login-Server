@@ -1,8 +1,10 @@
 const crypto = require('crypto');
+const CryptoJS = require('crypto-js');
 const { readKey, readCredential, writeCredential } = require('../json_dat');
 
 // Get a credential
 const getCredential = async (req, res, next) => {
+    const pw = process.argv[2];
     readCredential((err, credentials) => {
         // If there is an error send it through the error handling middleware
         if (err) {
@@ -25,8 +27,11 @@ const getCredential = async (req, res, next) => {
         }
 
         // Process the username and password
-        const username = credential.username;
-        const password = credential.password;
+        const username_bytes = CryptoJS.AES.decrypt(credential.username, pw);
+        const password_bytes = CryptoJS.AES.decrypt(credential.password, pw);
+        const username = username_bytes.toString(CryptoJS.enc.Utf8)
+        const password = password_bytes.toString(CryptoJS.enc.Utf8)
+
 
         // Encrypt the username and password using the clients public key
         readKey((err, keys) => {
@@ -62,6 +67,7 @@ const getCredential = async (req, res, next) => {
 
 // Set a credential
 const setupCredential = async (req, res, next) => {
+    const pw = process.argv[2];
     data = req.body; // JSON data from the post request
 
     username = data.username;
@@ -119,8 +125,8 @@ const setupCredential = async (req, res, next) => {
 
             // Save the decrypted credentials
             credentials[req.username][req.credentialName] = {
-                username: user_decrypted.toString('utf8'),
-                password: pass_decrypted.toString('utf8')
+                username: CryptoJS.AES.encrypt(user_decrypted.toString('utf8'), pw).toString(),
+                password: CryptoJS.AES.encrypt(pass_decrypted.toString('utf8'), pw).toString()
             }
             
             // Write this setup to the credentials
