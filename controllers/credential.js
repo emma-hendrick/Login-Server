@@ -131,8 +131,11 @@ const setupCredential = async (req, res, next) => {
             
             // Write this setup to the credentials
             writeCredential(credentials, (err) => {
-                next(err); 
-                return;
+                // If there is an error send it through the error handling middleware
+                if (err) {
+                    console.log(err);
+                    return;
+                }
             });
     
             // Let the user know it worked
@@ -168,8 +171,11 @@ const deleteCredential = async (req, res, next) => {
         
         // Write this setup to the credentials
         writeCredential(credentials, (err) => {
-            next(err); 
-            return;
+            // If there is an error send it through the error handling middleware
+            if (err) {
+                console.log(err);
+                return;
+            }
         });
 
         // Let the user know it worked

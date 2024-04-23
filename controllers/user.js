@@ -68,8 +68,11 @@ const setupUserKeys = async (req, res, next) => {
         
         // Write this setup to the keys
         writeKey(keys, (err) => {
-            next(err); 
-            return;
+            // If there is an error send it through the error handling middleware
+            if (err) {
+                console.log(err);
+                return;
+            }
         });
 
         // On to the next part of the stack!
@@ -99,8 +102,11 @@ const setupUserCredentials = async (req, res, next) => {
         
         // Write this setup to the keys
         writeCredential(credentials, (err) => {
-            next(err); 
-            return;
+            // If there is an error send it through the error handling middleware
+            if (err) {
+                console.log(err);
+                return;
+            }
         });
 
         // On to the next part of the stack!
@@ -136,8 +142,11 @@ const setupUser = async (req, res, next) => {
         
         // Write this setup to the users
         writeUsers(users, (err) => {
-            next(err); 
-            return;
+            // If there is an error send it through the error handling middleware
+            if (err) {
+                console.log(err);
+                return;
+            }
         });
 
         // Let the user know it worked
@@ -163,8 +172,11 @@ const deleteUserKeys = async (req, res, next) => {
         
         // Write this setup to the keys
         writeKey(keys, (err) => {
-            next(err); 
-            return;
+            // If there is an error send it through the error handling middleware
+            if (err) {
+                console.log(err);
+                return;
+            }
         });
 
         // On to the next part of the stack!
@@ -190,8 +202,11 @@ const deleteUser = async (req, res, next) => {
         
         // Write this setup to the keys
         writeUsers(users, (err) => {
-            next(err); 
-            return;
+            // If there is an error send it through the error handling middleware
+            if (err) {
+                console.log(err);
+                return;
+            }
         });
 
         // Let the user know it worked
