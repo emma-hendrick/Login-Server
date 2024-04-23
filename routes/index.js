@@ -25,7 +25,7 @@ const extractCredential = (req, res, next) => {
     next();
 }
 
-// Route requests for the server, ie, getting the public key from the server -DONE
+// Route requests for the server, ie, getting the public key from the server
 routes.route('/server')
     .get(getServerKey)
     .post(setupServer)
