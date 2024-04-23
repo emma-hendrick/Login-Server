@@ -94,6 +94,7 @@ const setupUserCredentials = async (req, res, next) => {
             return;
         }
 
+        // Create an empty credential obj for them
         credentials[req.username] = {}
         
         // Write this setup to the keys
