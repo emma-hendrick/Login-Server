@@ -20,5 +20,6 @@ app.use((err, req, res, next) => {
 
 // Listen on the port
 app.listen(port, () => {
+    console.log('Login Server Running')
     console.log(`Listening on port: ${port}`)
 })
