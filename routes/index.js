@@ -1,6 +1,6 @@
 const routes = require('express').Router();
 const { getServerKey, setupServer, resetServer } = require('../controllers/server');
-const { getUserKey, setupUserKeys, setupUserCredentials, setupUser, deleteUserKeys, deleteUser } = require('../controllers/user')
+const { getUserKey, setupUserKeys, setupUserCredentials, setupUser, deleteUserKeys, deleteUserCredentials, deleteUser } = require('../controllers/user')
 const { getCredential, setupCredential, deleteCredential } = require('../controllers/credential')
 
 // Middleware to get a username from route parameters
@@ -47,6 +47,6 @@ routes.route('/user/:username')
     .get(getUserKey)
     .post(setupUserKeys, setupUserCredentials, setupUser)
     //.patch(updateUser)
-    .delete(deleteUserKeys, deleteUser);
+    .delete(deleteUserKeys, deleteUserCredentials, deleteUser);
 
 module.exports = routes;

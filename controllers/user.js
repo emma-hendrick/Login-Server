@@ -184,6 +184,36 @@ const deleteUserKeys = async (req, res, next) => {
     })
 }
 
+// Delete the users Keys
+const deleteUserCredentials = async (req, res, next) => {
+    readCredential((err, credentials) => {
+        // If there is an error send it through the error handling middleware
+        if (err) {
+            next(err);
+            return;
+        }
+
+        // Users keys
+        const user = credentials[req.username]
+        if (user) {
+            // Delete the user
+            delete credentials[req.username]
+        }
+        
+        // Write this setup to the keys
+        writeCredential(credentials, (err) => {
+            // If there is an error send it through the error handling middleware
+            if (err) {
+                console.log(err);
+                return;
+            }
+        });
+
+        // On to the next part of the stack!
+        next();
+    })
+}
+
 // Delete the user
 const deleteUser = async (req, res, next) => {
     readUsers((err, users) => {
@@ -214,4 +244,4 @@ const deleteUser = async (req, res, next) => {
     })
 }
 
-module.exports = { getUserKey, setupUserKeys, setupUserCredentials, setupUser, deleteUserKeys, deleteUser };
+module.exports = { getUserKey, setupUserKeys, setupUserCredentials, setupUser, deleteUserKeys, deleteUserCredentials, deleteUser };
